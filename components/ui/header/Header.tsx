@@ -1,16 +1,27 @@
 import Link from "next/link";
+import prismadb from "@/lib/prismadb";
 import { getServerSession } from "next-auth";
 import { LogIn, Newspaper } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+import UserMenu from "@/components/ui/header/UserMenu";
 import ThemeSwitcher from "@/components/ui/header/ThemeSwitcher";
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
+const getRole = async (email: string): Promise<"ADMIN" | "USER"> => {
+	const user = await prismadb.user.findUnique({
+		where: { email },
+	});
+
+	return user?.role === "ADMIN" ? "ADMIN" : "USER";
+};
+
 const Header = async () => {
 	const session = await getServerSession(authOptions);
+
+	const role = session ? await getRole(session.user?.email!) : "USER";
 
 	return (
 		<header className="w-full border-b border-border bg-background backdrop-blur-md fixed top-0 left-0">
@@ -20,22 +31,7 @@ const Header = async () => {
 					<span className="font-semibold text-base">blog</span>
 				</Link>
 				<div className="flex items-center gap-2">
-					{session ? (
-						<Avatar className="w-8 h-8">
-							<AvatarFallback>
-								{session.user?.email?.toString()[0].toUpperCase()}
-							</AvatarFallback>
-							<AvatarImage src={session.user?.image!} />
-						</Avatar>
-					) : (
-						<Link
-							href="/login"
-							className={buttonVariants({ variant: "ghost", size: "icon" })}
-						>
-							<LogIn className="w-[1.2rem] h-[1.2rem]" />
-						</Link>
-					)}
-
+					<UserMenu session={session} role={role} />
 					<ThemeSwitcher />
 				</div>
 			</div>

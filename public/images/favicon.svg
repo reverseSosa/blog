@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="120" height="120"><svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="120" height="120" rx="22" fill="black"></rect>
+<path d="M32.6693 94.1654H87.3359C89.1482 94.1654 90.8863 93.4454 92.1678 92.1639C93.4493 90.8824 94.1693 89.1443 94.1693 87.332V32.6654C94.1693 30.8531 93.4493 29.115 92.1678 27.8335C90.8863 26.552 89.1482 25.832 87.3359 25.832H46.3359C44.5236 25.832 42.7855 26.552 41.504 27.8335C40.2225 29.115 39.5026 30.8531 39.5026 32.6654V87.332C39.5026 89.1443 38.7827 90.8824 37.5012 92.1639C36.2197 93.4454 34.4816 94.1654 32.6693 94.1654ZM32.6693 94.1654C30.857 94.1654 29.1189 93.4454 27.8374 92.1639C26.5559 90.8824 25.8359 89.1443 25.8359 87.332V56.582C25.8359 52.8237 28.9109 49.7487 32.6693 49.7487H39.5026" stroke="white" stroke-width="5.25" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M80.4974 66.832H53.1641" stroke="white" stroke-width="5.25" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M70.2474 80.5H53.1641" stroke="white" stroke-width="5.25" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M53.1641 39.5H80.4974V53.1667H53.1641V39.5Z" stroke="white" stroke-width="5.25" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+</style></svg>

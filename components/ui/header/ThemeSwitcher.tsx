@@ -12,6 +12,7 @@ const ThemeSwitcher = () => {
 		<Button
 			variant="ghost"
 			size="icon"
+			className="max-lg:hidden"
 			onClick={() => (theme === "dark" ? setTheme("light") : setTheme("dark"))}
 		>
 			<Sun className="w-[1.2rem] h-[1.2rem] scale-100 dark:scale-0" />

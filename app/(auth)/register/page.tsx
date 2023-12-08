@@ -1,5 +1,9 @@
 import RegisterForm from "./components/RegisterForm";
 
+export const metadata = {
+	title: "Создать аккаунт - blog",
+};
+
 const RegisterPage = () => {
 	return (
 		<main className="min-h-screen flex justify-center items-center">

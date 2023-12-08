@@ -1,7 +1,6 @@
 "use client";
 
 import * as z from "zod";
-import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -23,49 +22,50 @@ import { Input } from "@/components/ui/input";
 import { Button, buttonVariants } from "@/components/ui/button";
 
 const formSchema = z.object({
-	username: z.string().min(4, "От 4 символов").max(12, "Не более 12 символов"),
 	email: z.string().email("Это не похоже на email"),
 	password: z.string().min(6, "От 6 символов").max(20, "Не более 20 символов"),
 });
 
-type RegisterFormValues = z.infer<typeof formSchema>;
+type LoginFormValues = z.infer<typeof formSchema>;
 
-const RegisterForm = () => {
+const LoginForm = () => {
 	const [loading, setLoading] = useState(false);
 
 	const router = useRouter();
 
-	const form = useForm<RegisterFormValues>({
+	const form = useForm<LoginFormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			username: "",
 			email: "",
 			password: "",
 		},
 	});
 
-	const onSubmit = async (data: RegisterFormValues) => {
+	const onSubmit = async (data: LoginFormValues) => {
 		try {
 			setLoading(true);
 
-			const res = await axios
-				.post("/api/register", data)
-				.then((response) => response.data);
-
-			toast.success("Аккаунт создан");
-
-			await signIn("credentials", { ...data, redirect: false });
-
-			router.refresh();
-			router.push("/");
+			const res = await signIn("credentials", {
+				...data,
+				redirect: false,
+			});
 
 			process.env.NEXT_PUBLIC_DEBUG === "true" &&
-				console.log("Register response", res);
+				console.log("Login response", res);
+
+			if (res?.status !== 200) {
+				throw new Error("Неправильный email или пароль");
+			}
+
+			toast.success("Успешный вход");
+			window.location.reload();
+
+			setTimeout(() => router.push("/"));
 		} catch (error) {
-			toast.error("Ошибка при создании аккаунта");
+			toast.error("Неправильный email или пароль");
 
 			process.env.NEXT_PUBLIC_DEBUG === "true" &&
-				console.log("Register error", error);
+				console.log("Login error", error);
 		} finally {
 			setLoading(false);
 		}
@@ -77,26 +77,6 @@ const RegisterForm = () => {
 				onSubmit={form.handleSubmit(onSubmit)}
 				className="flex flex-col gap-2"
 			>
-				<FormField
-					name="username"
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Никнейм</FormLabel>
-							<FormControl>
-								<Input
-									type="text"
-									maxLength={12}
-									autoComplete="username"
-									placeholder="username"
-									disabled={loading}
-									{...field}
-								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
 				<FormField
 					name="email"
 					control={form.control}
@@ -139,8 +119,7 @@ const RegisterForm = () => {
 
 				<div className="flex flex-col gap-3">
 					<Button type="submit" variant="default" className="mt-4">
-						{loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}{" "}
-						Создать аккаунт
+						{loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />} Войти
 					</Button>
 					<div className="flex items-center gap-2">
 						<div className="flex-1 bg-border h-[1px]" />
@@ -148,10 +127,10 @@ const RegisterForm = () => {
 						<div className="flex-1 bg-border h-[1px]" />
 					</div>
 					<Link
-						href="/login"
+						href="/register"
 						className={buttonVariants({ variant: "secondary" })}
 					>
-						Войти
+						Создать аккаунт
 					</Link>
 				</div>
 			</form>
@@ -159,4 +138,4 @@ const RegisterForm = () => {
 	);
 };
 
-export default RegisterForm;
+export default LoginForm;
