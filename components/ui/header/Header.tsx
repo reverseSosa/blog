@@ -28,6 +28,7 @@ const Header = async () => {
 					<Newspaper className="w-4 h-4" />
 					<span className="font-semibold text-base">blog</span>
 				</Link>
+
 				<div className="flex items-center gap-2">
 					<UserMenu session={session} role={role} />
 					<ThemeSwitcher />
