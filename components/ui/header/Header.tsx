@@ -24,7 +24,7 @@ const Header = async () => {
 	const role = session ? await getRole(session.user?.email!) : "USER";
 
 	return (
-		<header className="w-full border-b border-border bg-background backdrop-blur-md fixed top-0 left-0">
+		<header className="w-full border-b border-border bg-background/60 backdrop-blur fixed top-0 left-0">
 			<div className="flex items-center justify-between w-full max-w-screen-xl mx-auto py-2 max-xl:px-4">
 				<Link href="/" className="flex items-center gap-2">
 					<Newspaper className="w-4 h-4" />

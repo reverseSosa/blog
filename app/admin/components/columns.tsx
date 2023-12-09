@@ -3,6 +3,8 @@
 import { format, formatDistanceToNow } from "date-fns";
 import { ColumnDef } from "@tanstack/react-table";
 import { ru } from "date-fns/locale";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 
 export type Post = {
 	id: string;
@@ -17,6 +19,14 @@ export const columns: ColumnDef<Post>[] = [
 	{
 		accessorKey: "title",
 		header: "Заголовок",
+		cell: ({ row }) => (
+			<Link
+				href={`/admin/${row.original.id}`}
+				className={buttonVariants({ variant: "link" })}
+			>
+				{row.original.title}
+			</Link>
+		),
 	},
 	{
 		accessorKey: "comments",

@@ -5,27 +5,13 @@ import prismadb from "@/lib/prismadb";
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export async function GET() {
+export async function DELETE(
+	req: NextRequest,
+	{ params }: { params: { commentId: string } },
+) {
 	try {
-		const posts = await prismadb.post.findMany();
-
-		return NextResponse.json(posts);
-	} catch (error) {
-		console.log("[POSTS_GET]", error);
-	}
-}
-
-export async function POST(req: NextRequest) {
-	try {
-		const body = await req.json();
-
-		const { title, content, description } = body;
-
-		if (!title) {
-			return new NextResponse("Title is required", { status: 400 });
-		}
-		if (!content) {
-			return new NextResponse("Title is required", { status: 400 });
+		if (!params.commentId) {
+			return new NextResponse("Comment ID is required", { status: 400 });
 		}
 
 		const session = await getServerSession(authOptions);
@@ -50,17 +36,14 @@ export async function POST(req: NextRequest) {
 			return new NextResponse("Unauthorized", { status: 403 });
 		}
 
-		const post = await prismadb.post.create({
-			data: {
-				title,
-				content,
-				description,
-				userId: user.id,
+		const comment = await prismadb.comment.deleteMany({
+			where: {
+				id: params.commentId,
 			},
 		});
 
-		return NextResponse.json(post);
+		return NextResponse.json(comment);
 	} catch (error) {
-		console.log("[POSTS_POST]", error);
+		console.log("[COMMENTS_POST]", error);
 	}
 }

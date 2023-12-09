@@ -33,7 +33,7 @@ const AdminPage = async () => {
 	}));
 
 	return (
-		<main className="min-h-screen flex flex-col pt-20">
+		<main className="min-h-screen flex flex-col pt-20 pb-10">
 			<div className="flex flex-col w-full max-w-screen-xl px-4 mx-auto space-y-4">
 				<div className="flex items-center justify-between">
 					<Heading

@@ -27,7 +27,8 @@ import AlertModal from "@/components/ui/modals/AlertModal";
 
 const formSchema = z.object({
 	title: z.string().min(1),
-	content: z.string().max(600, "Не более 600 символов"),
+	content: z.string().max(2400, "Не более 2400 символов"),
+	description: z.string().max(100).optional(),
 });
 
 interface PostFormProps {
@@ -52,15 +53,22 @@ const PostForm: React.FC<PostFormProps> = ({ initialData }) => {
 
 	const form = useForm<PostFormValues>({
 		resolver: zodResolver(formSchema),
-		defaultValues: initialData || {
-			title: "",
-			content: "",
-		},
+		defaultValues: initialData
+			? {
+					...initialData,
+					description: initialData.description ?? "",
+			  }
+			: {
+					title: "",
+					content: "",
+					description: "",
+			  },
 	});
 
 	const onSubmit = async (data: PostFormValues) => {
 		try {
 			setLoading(true);
+
 			if (initialData) {
 				await axios.patch(`/api/posts/${params.postId}`, data);
 			} else {
@@ -82,8 +90,8 @@ const PostForm: React.FC<PostFormProps> = ({ initialData }) => {
 			setLoading(true);
 			await axios.delete(`/api/posts/${params.postId}`);
 
-			router.refresh();
 			router.push(`/admin`);
+			router.refresh();
 			toast.success("Статья удалена");
 		} catch (error) {
 			toast.error("Что-то пошло не так");
@@ -138,6 +146,24 @@ const PostForm: React.FC<PostFormProps> = ({ initialData }) => {
 							)}
 						/>
 						<FormField
+							name="description"
+							control={form.control}
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Описание</FormLabel>
+									<FormControl>
+										<Input
+											type="text"
+											placeholder="Описание"
+											disabled={loading}
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
 							name="content"
 							control={form.control}
 							render={({ field }) => (
@@ -145,7 +171,7 @@ const PostForm: React.FC<PostFormProps> = ({ initialData }) => {
 									<FormLabel>Текст</FormLabel>
 									<FormControl>
 										<Textarea
-											className="min-h-[60%]"
+											className="min-h-[300px] md:min-h-[400px] h-fit"
 											placeholder="Текст"
 											disabled={loading}
 											{...field}

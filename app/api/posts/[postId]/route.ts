@@ -12,7 +12,7 @@ export async function PATCH(
 	try {
 		const body = await req.json();
 
-		const { title, content } = body;
+		const { title, content, description } = body;
 
 		if (!title) {
 			return new NextResponse("Title is required", { status: 400 });
@@ -53,6 +53,7 @@ export async function PATCH(
 			data: {
 				title,
 				content,
+				description,
 			},
 		});
 

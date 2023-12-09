@@ -60,7 +60,7 @@ const LoginForm = () => {
 			toast.success("Успешный вход");
 			window.location.reload();
 
-			setTimeout(() => router.push("/"));
+			setTimeout(() => router.push("/"), 1000);
 		} catch (error) {
 			toast.error("Неправильный email или пароль");
 

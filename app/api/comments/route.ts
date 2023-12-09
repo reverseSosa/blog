@@ -7,11 +7,11 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function GET() {
 	try {
-		const posts = await prismadb.post.findMany();
+		const comments = await prismadb.comment.findMany();
 
-		return NextResponse.json(posts);
+		return NextResponse.json(comments);
 	} catch (error) {
-		console.log("[POSTS_GET]", error);
+		console.log("[COMMENTS_GET]", error);
 	}
 }
 
@@ -19,13 +19,10 @@ export async function POST(req: NextRequest) {
 	try {
 		const body = await req.json();
 
-		const { title, content, description } = body;
+		const { content, postId } = body;
 
-		if (!title) {
-			return new NextResponse("Title is required", { status: 400 });
-		}
 		if (!content) {
-			return new NextResponse("Title is required", { status: 400 });
+			return new NextResponse("Content is required", { status: 400 });
 		}
 
 		const session = await getServerSession(authOptions);
@@ -44,23 +41,17 @@ export async function POST(req: NextRequest) {
 			return new NextResponse("User doesnt exists", { status: 400 });
 		}
 
-		const isAdmin = user.role === "ADMIN";
-
-		if (!isAdmin) {
-			return new NextResponse("Unauthorized", { status: 403 });
-		}
-
-		const post = await prismadb.post.create({
+		const comment = await prismadb.comment.create({
 			data: {
-				title,
 				content,
-				description,
+				postId,
 				userId: user.id,
+				username: user.name!,
 			},
 		});
 
-		return NextResponse.json(post);
+		return NextResponse.json(comment);
 	} catch (error) {
-		console.log("[POSTS_POST]", error);
+		console.log("[COMMENTS_POST]", error);
 	}
 }
