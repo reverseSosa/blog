@@ -29,16 +29,22 @@ export async function generateMetadata({
 }
 
 const getAccount = async (email: string, postId: string) => {
-	const user = await prismadb.user.findUnique({
-		where: { email },
-		include: {
-			likes: {
-				where: { postId },
+	try {
+		const user = await prismadb.user.findUnique({
+			where: { email },
+			include: {
+				likes: {
+					where: { postId },
+				},
 			},
-		},
-	});
+		});
 
-	return user;
+		return user;
+	} catch (error) {
+		process.env.NEXT_PUBLIC_DEBUG && console.log("No user found");
+
+		return null;
+	}
 };
 
 const PostPage = async ({
@@ -87,8 +93,8 @@ const PostPage = async ({
 			<div className="w-full max-w-screen-xl mx-auto px-4 flex flex-col gap-4">
 				<div className="flex items-end justify-between">
 					<Heading title={post?.title!} description={post.description ?? ""} />
-					<div className="flex items-center gap-2 text-sm text-muted-foreground">
-						<span>
+					<div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
+						<span className="whitespace-nowrap">
 							{isToday(post.createdAt)
 								? `${formatDistanceToNow(post.createdAt, { locale: ru })} назад`
 								: format(post.createdAt, "dd MMMM yyyy", { locale: ru })}

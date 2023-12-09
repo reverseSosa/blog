@@ -57,7 +57,6 @@ const RegisterForm = () => {
 			await signIn("credentials", { ...data, redirect: false });
 
 			window.location.reload();
-			setTimeout(() => router.push("/"), 1000);
 
 			process.env.NEXT_PUBLIC_DEBUG === "true" &&
 				console.log("Register response", res);

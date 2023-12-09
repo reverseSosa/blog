@@ -20,17 +20,7 @@ interface PostCardProps {
 }
 
 const PostCard: React.FC<PostCardProps> = async ({ post }) => {
-	const {
-		title,
-		description,
-		createdAt,
-		comments,
-		likes,
-		name,
-		id,
-		lastCommentDate,
-		lastUserName,
-	} = post;
+	const { title, description, createdAt, comments, likes, name, id } = post;
 	return (
 		<Link href={`/${id}`}>
 			<Card className="cursor-pointer">
@@ -53,7 +43,11 @@ const PostCard: React.FC<PostCardProps> = async ({ post }) => {
 						</span>
 					</div>
 				</CardHeader>
-				{description && <CardContent>{description}</CardContent>}
+				{description && (
+					<CardContent className="text-sm md:text-base">
+						{description}
+					</CardContent>
+				)}
 			</Card>
 		</Link>
 	);

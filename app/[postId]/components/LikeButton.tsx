@@ -10,7 +10,7 @@ import { like } from "../actions";
 interface LikeButtonProps {
 	likes: number;
 	liked: boolean;
-	userId: string;
+	userId?: string;
 	postId: string;
 }
 
@@ -24,9 +24,11 @@ const LikeButton: React.FC<LikeButtonProps> = ({
 	const [likedLocal, setLikedLocal] = useState(liked);
 
 	const onLike = async () => {
+		if (!userId) return null;
+
 		setLikedLocal(!likedLocal);
 		setLikesCount((prev) => (likedLocal ? prev - 1 : prev + 1));
-		await like(userId, postId);
+		await like(userId!, postId);
 	};
 
 	return (
