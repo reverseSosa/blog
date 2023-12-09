@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 
 import prismadb from "@/lib/prismadb";
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 
 export default async function AdminLayout({
 	children,

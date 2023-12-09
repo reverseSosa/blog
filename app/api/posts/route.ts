@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import prismadb from "@/lib/prismadb";
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 
 export async function GET() {
 	try {

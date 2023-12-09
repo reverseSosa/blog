@@ -8,7 +8,7 @@ import prismadb from "@/lib/prismadb";
 import { Heading } from "@/components/ui/Heading";
 import { Separator } from "@/components/ui/separator";
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 
 import CommentForm from "./components/CommentForm";
 import CommentCard from "./components/CommentCard";

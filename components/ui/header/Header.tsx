@@ -1,14 +1,12 @@
 import Link from "next/link";
 import prismadb from "@/lib/prismadb";
 import { getServerSession } from "next-auth";
-import { LogIn, Newspaper } from "lucide-react";
-
-import { buttonVariants } from "@/components/ui/button";
+import { Newspaper } from "lucide-react";
 
 import UserMenu from "@/components/ui/header/UserMenu";
 import ThemeSwitcher from "@/components/ui/header/ThemeSwitcher";
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 
 const getRole = async (email: string): Promise<"ADMIN" | "USER"> => {
 	const user = await prismadb.user.findUnique({
